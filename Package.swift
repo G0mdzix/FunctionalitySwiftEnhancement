@@ -1,23 +1,28 @@
 // swift-tools-version: 5.10
-// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
-    name: "FunctionalitySwiftEnhancement",
-    products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(
-            name: "FunctionalitySwiftEnhancement",
-            targets: ["FunctionalitySwiftEnhancement"]),
-    ],
-    targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        .target(
-            name: "FunctionalitySwiftEnhancement"),
-        .testTarget(
-            name: "FunctionalitySwiftEnhancementTests",
-            dependencies: ["FunctionalitySwiftEnhancement"]),
-    ]
+  name: "FunctionalitySwiftEnhancement",
+  platforms: [.iOS(.v15)],
+  products: [
+    .library(
+      name: "FunctionalitySwiftEnhancement",
+      targets: ["FunctionalitySwiftEnhancement"]
+    ),
+  ],
+  dependencies: [
+    .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", revision: "0.57.0"),
+  ],
+  targets: [
+    .target(
+      name: "FunctionalitySwiftEnhancement",
+      plugins: [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")]
+    ),
+    .testTarget(
+      name: "FunctionalitySwiftEnhancementTests",
+      dependencies: ["FunctionalitySwiftEnhancement"],
+      plugins: [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")]
+    ),
+  ]
 )
